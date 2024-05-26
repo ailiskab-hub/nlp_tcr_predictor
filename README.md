@@ -29,7 +29,7 @@ Models perfectly coped with classification of sequences for belonging to the alp
 The model is able to associate a TCR with an epitope of the antigen to which the sequence will bind. This task is implemented as a classifier, relative to the most widely represented epitopes in the data. TCR BERT shows better results. Prediction by two subunits of the receptor: alpha and beta: f1 score 0.64, separately by alpha: f1 score ~ 0.44, separately by beta: f1 score ~ 0.57
 
 <p align="center">
-  <img src="images/Colored_emb_1.jpg" width="640" height="306" />
+  <img src="images/Colored_emb_0.jpg" width="640" height="306" />
 </p> 
 
 The model is successful in separating clusters from each other in the data, indicating that the model finds correct and biologically relevant patterns in the sequences
