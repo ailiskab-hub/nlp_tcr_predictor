@@ -16,4 +16,13 @@ The primary aim of this project is to develop a model that can identify the clos
 |  D_genes.ipynb   |  J genes prediction   |
 |  Visualisation.ipynb   |  visualisation  of genes prediction   |
 |  epitopes   |  fine-tuning, usage, evaluation and visualisation  |
+|  ft.yml   |  required packages for running the code  |
+
+
+## Results
+Models perfectly coped with classification of sequences for belonging to the alpha or beta subunit of the receptor (f1 score close to 1). The best results for classifying the regions of genes V (f1-score ~ 0.6), J and D (f1-score > 0.9) whose recombination resulted in this sequence were obtained using the TCR-BERT model.
+
+The model is able to associate a TCR with an epitope of the antigen to which the sequence will bind. This task is implemented as a classifier, relative to the most widely represented epitopes in the data. TCR BERT shows better results. Prediction by two subunits of the receptor: alpha and beta: f1 score 0.64, separately by alpha: f1 score ~ 0.44, separately by beta: f1 score ~ 0.57
+
+The models were also trained to predict the binding of a given TCR and a given epitope. This requires first obtaining a dataset for TCR and epitope examples that do not bind to each other. And for further work, we obtained embeddings for receptor and epitope and used a fully connected neural network to classify the samples.
 
