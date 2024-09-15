@@ -95,6 +95,10 @@ def format_time(elapsed):
 
 #     return my_model if mod_type=='TCR-bert' else (tokenizer, my_model)
 
+# from transformers import AutoTokenizer, AutoModelForMaskedLM
+
+# tokenizer = AutoTokenizer.from_pretrained("wukevin/tcr-bert-mlm-only")
+# model = AutoModelForMaskedLM.from_pretrained("wukevin/tcr-bert-mlm-only")
 
 class CustomModel(nn.Module):
     def __init__(self, n_labels = 2):
@@ -102,7 +106,7 @@ class CustomModel(nn.Module):
         self.n_labels = n_labels
         # self.tokenizer = BertTokenizer.from_pretrained("wukevin/tcr-bert", do_lower_case=False )
         self.tokenizer = AutoTokenizer.from_pretrained("wukevin/tcr-bert")
-        self.model = AutoModelForSequenceClassification.from_pretrained("wukevin/tcr-bert", num_labels = n_labels, ignore_mismatched_sizes=True)
+        self.model =  AutoModelForSequenceClassification.from_pretrained("wukevin/tcr-bert-mlm-only", num_labels = n_labels, ignore_mismatched_sizes=True)
         # self.model = BertForSequenceClassification.from_pretrained("wukevin/tcr-bert", num_labels = n_labels,
                                                                                     # ignore_mismatched_sizes=True, 
                                                                                     # output_attentions = False,
@@ -117,15 +121,15 @@ class CustomModel(nn.Module):
             max_len = max(max_len, len(input_ids))
         return max_len
         
-    def tokenize(self, seqs, labels):
+    def tokenize(self, seqs, labels, max_len = None):
         input_ids = []
         attention_masks = []
-        max_len = self.count_max_len(seqs)
+        if not max_len:
+            max_len = self.count_max_len(seqs)
         self.maximun_len = max_len
 
         for seq in seqs:
-            encoded_dict = self.tokenizer.encode_plus(seq, add_special_tokens = True, 
-                              max_length = max_len, pad_to_max_length = True, return_attention_mask = True, return_tensors = 'pt')
+            encoded_dict = self.tokenizer.encode_plus(seq, add_special_tokens = True, truncation=True, max_length = max_len, pad_to_max_length = True, return_attention_mask = True, return_tensors = 'pt')
 
             input_ids.append(encoded_dict['input_ids'])
             attention_masks.append(encoded_dict['attention_mask'])
